@@ -5,6 +5,11 @@ global dontWrap:=false
 	Gui, New
 	osdMacroBoard()
 return
+; \.(.*)\h{\R\h*background-image\:\h*url\("(.*.png)"\);\R\h*\w*:\h*\w*;\R\h*left:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*[\w|-]*:\h*(\d)*;\R*}
+
+; Gui, Add, Picture, x$3 y$4 w$5 h$6 +BackgroundTrans +Redraw v$1 gGMKeyFunc, %A_ScriptDir%\\k95\\$2
+
+; still some cleanup due to bad file names and escaping, but a lot of legwork performed here
 osdMacroBoard()
 {
 global
@@ -326,4 +331,4 @@ outPut(a:="a")
 		}
 	}
 }
-^r::reload
+;^r::reload
