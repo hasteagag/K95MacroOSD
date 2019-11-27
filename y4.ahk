@@ -228,6 +228,16 @@ outPut(a:="a")
 	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
 	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"}
 
+	if a != %each%
+	{
+		; if a is alpha ;not so much
+		if lettersOnly.HasKey(a)
+		{
+			; Send %a%
+			dontWrap:=!dontWrap
+			; return
+		}
+	}
 	
 	for k, v in cH {
 		; MsgBox %k% %v%
@@ -242,18 +252,7 @@ outPut(a:="a")
 
 	for each, item in R
 	{
-		if a != %each%
-		{
-			; if a is alpha ;not so much
-			if lettersOnly.HasKey(a)
-			{
-				; Send %a%
-				dontWrap:=!dontWrap
-				; return
-			}
-			;very inefficient
-		}
-		else if a = %each%
+		if a = %each%
 		{
 			; big issue is grabbing existing physical modifiers
 			ctrlState:=GetKeyState("Ctrl",P)
@@ -314,6 +313,10 @@ outPut(a:="a")
 			{ ;alt
 				e:= "!{" . item . "}"
 			}
+			else if !ctrlState && !altState && shiftState && !winState
+			{ ;shift only
+				e:= "+{" . item . "}"
+			}
 			else {
 				;no modifiers
 				e:= "{" . item . "}"
@@ -324,7 +327,7 @@ outPut(a:="a")
 			{
 				 ; MsgBox %e% 1
 				e:=RegExReplace(e,"\{|\}","")
-				 ; MsgBox %e% 2
+				 ; MsgBox %e% 2y
 			}
 			SendLevel 1
 			Send %e%
