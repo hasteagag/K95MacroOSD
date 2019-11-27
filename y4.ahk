@@ -1,4 +1,7 @@
+global lastHwndMacro:=0x0
+global dontWrap:=false
 #y::
+	lastHwndMacro:=WinExist("A") ;update straight away only runs once
 	Gui, New
 	osdMacroBoard()
 return
@@ -171,7 +174,7 @@ sleep 60
 }
 GMKeyFunc()
 {
-	; WinActivate, ahk_id %lastHwndMacro%
+	WinActivate, ahk_id %lastHwndMacro%
 	;TODO:: Clock a bucky matrix with GetKeyState save those steps later?
 	
 	; ; WinActivate, ahk_id %lastHwndMacro%
@@ -193,7 +196,7 @@ GMKeyFunc()
 }
 outPut(a:="a")
 {
-
+	; MsgBox %a%
 ;Generation Regex:  
 	; Pattern: Gui.*v(.*)\hgGMKeyFunc.*\R
 	; Substitution: $1,
@@ -209,28 +212,49 @@ outPut(a:="a")
 	;TODO Heavy:  https://www.autohotkey.com/docs/KeyList.htm make sure H matches
 	
 	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC","Ctrl":"^","Alt":"{!}","Shift":"{+}","Win":"{#}",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22",Esc:"Esc",NumLock:"NumLock",NumPadDiv:"NumPadDiv",NumPadMult:"NumPadMult",NumPadSub:"NumPadSub",np7:"NumPad7",np8:"NumPad8",np9:"NumPad9",NumPadAdd:"NumPadAdd",np4:"NumPad4",np5:"NumPad5",np6:"NumPad6",np1:"NumPad1",np2:"NumPad2",NumPad3:"NumPad3",NumPadEnter:"NumpadEnter",np0:"NumPad0",NumpadDot:"NumpadDot",NumPad0:"NumPad0"}
-	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore",n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
+	
+	
+	oldH:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore",n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
+	
+	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
+	
+	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",CapsLock:"CapsLock",ScrollLock:"ScrollLock",NumLock:"NumLock",LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",AppsKey:"AppsKey",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",Pause:"Pause"}
+	
+	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
+	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"}
 
 	
-	;this does not work to merge these associative arrays?
-	for k, v in H {
-		MsgBox %k% %v%
+	for k, v in cH {
+		; MsgBox %k% %v%
 		R[k]:=v  ; looped addition per max limit in expression
 	}
-	
-	
+	for k, v in lettersOnly {
+		R[k]:=v  ; looped addition
+	}	
+	for k, v in numbersOnly {
+		R[k]:=v  ; looped addition
+	}
+
 	for each, item in R
 	{
-		; MsgBox Each is %each% and item is %item%
-		if a = %each%
+		if a != %each%
 		{
-			; MsgBox here and item is %item%
+			; if a is alpha ;not so much
+			if lettersOnly.HasKey(a)
+			{
+				; Send %a%
+				dontWrap:=!dontWrap
+				; return
+			}
+			;very inefficient
+		}
+		else if a = %each%
+		{
 			; big issue is grabbing existing physical modifiers
 			ctrlState:=GetKeyState("Ctrl",P)
 			altState:=GetKeyState("Alt",P)
 			shiftState:=GetKeyState("Shift",P)
-			
-			winState:=GetKeyState("#",P) ;not implemented
+			winState:=GetKeyState("#",P)
 			
 			if ctrlState && altState && shiftState && winState
 			{ ;ctrl and alt and shift and win
@@ -291,6 +315,12 @@ outPut(a:="a")
 			}
 			;there are better ways...
 			 ; MsgBox %e%
+			if dontWrap
+			{
+				 MsgBox %e% 1
+				e:=RegExReplace(e,"\{|\}","")
+				 MsgBox %e% 2
+			}
 			SendLevel 1
 			Send %e%
 		}
