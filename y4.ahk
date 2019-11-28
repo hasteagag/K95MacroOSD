@@ -257,7 +257,7 @@ outPut(a:="a")
 			ctrlState:=GetKeyState("Ctrl",P)
 			altState:=GetKeyState("Alt",P)
 			shiftState:=GetKeyState("Shift",P)
-			winState:=GetKeyState("#",P)
+			winState:=GetKeyState("LWin",P) ;heck
 	
 			;http://www.sdmath.com/math/discrete/boolean.html ;this explained why I didnt get that the typical factorial or combinatorics wasnt working, the modifiers are boolean states and the exponent represents the quantity thereof...flip of a coin example
 			;but clocking it first would mean you could avoid this test and results would be applied the same based on getkeystate results would require four? (I guess) tests rather than sixteen 
@@ -276,6 +276,7 @@ outPut(a:="a")
 			}
 			if winState
 			{
+				; MsgBox y
 				e:= e . "#"
 			}
 			e:= e . "{" . item . "}"
