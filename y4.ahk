@@ -3,6 +3,7 @@ global dontWrap:=false
 #y::
 	lastHwndMacro:=WinExist("A") ;update straight away only runs once
 	Gui, New
+	dontWrap:=false
 	osdMacroBoard()
 return
 ; \.(.*)\h{\R\h*background-image\:\h*url\("(.*.png)"\);\R\h*\w*:\h*\w*;\R\h*left:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*[\w|-]*:\h*(\d)*;\R*}
@@ -50,7 +51,7 @@ Gui, Add, Picture, x1468 y97 w63 h42 +BackgroundTrans +Redraw vStop gGMKeyFunc, 
 
 Gui, Add, Picture, x1665 y363 w61 h127 +BackgroundTrans +Redraw vNumPadEnter gGMKeyFunc, %A_ScriptDir%\k95\NumPadEnter.png
 Gui, Add, Picture, x1665 y233 w61 h127 +BackgroundTrans +Redraw vNumPadPlus gGMKeyFunc, %A_ScriptDir%\k95\NumPadPlus.png
-Gui, Add, Picture, x1666 y169 w61 h61 +BackgroundTrans +Redraw vNumPadMinus gGMKeyFunc, %A_ScriptDir%\k95\NumPadMinus.png
+Gui, Add, Picture, x1666 y169 w61 h61 +BackgroundTrans +Redraw vNumPadSub gGMKeyFunc, %A_ScriptDir%\k95\NumPadSub.png
 Gui, Add, Picture, x1601 y169 w61 h61 +BackgroundTrans +Redraw vNumPadMul gGMKeyFunc, %A_ScriptDir%\k95\NumPadMul.png
 Gui, Add, Picture, x1534 y169 w61 h61 +BackgroundTrans +Redraw vNumPadDiv gGMKeyFunc, %A_ScriptDir%\k95\NumPadDiv.png
 Gui, Add, Picture, x1468 y169 w61 h61 +BackgroundTrans +Redraw vNumLock gGMKeyFunc, %A_ScriptDir%\k95\NumLock.png
@@ -176,14 +177,20 @@ Gui, Add, Picture, x89 y95 w61 h61 +BackgroundTrans +Redraw vG2 gGMKeyFunc, %A_S
 Gui, Add, Picture, x27 y95 w61 h61 +BackgroundTrans +Redraw vG1 gGMKeyFunc, %A_ScriptDir%\k95\G1.png
 sleep 60
 	Gui, Show, x0 y0 w1745 h960
+
+; below is the ridiculous css regex translation:	
+; \.(.*)\h{\R\h*background-image\:\h*url\("(.*.png)"\);\R\h*\w*:\h*\w*;\R\h*left:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*\w*:\h*(\d*)\h*px;\R\h*[\w|-]*:\h*(\d)*;\R*}
+
+; Gui, Add, Picture, x$3 y$4 w$5 h$6 +BackgroundTrans +Redraw v$1 gGMKeyFunc, %A_ScriptDir%\\k95\\$2
+
+; still some cleanup due to bad file names and escaping, but a lot of legwork performed here
 }
 GMKeyFunc()
 {
 	WinActivate, ahk_id %lastHwndMacro%
-	;TODO:: Clock a bucky matrix with GetKeyState save those steps later?
+	;TODO:: Clock a bucky matrix with GetKeyState save those steps later or get to a permutational method
 	
 	; ; WinActivate, ahk_id %lastHwndMacro%
-	
 	; lastiCUEProfile:=getCurProfile()
 	; lastiCUEProfileIgnoreBool:=!lastiCUEProfileIgnoreBool
 	
@@ -216,31 +223,23 @@ outPut(a:="a")
 	
 	;TODO Heavy:  https://www.autohotkey.com/docs/KeyList.htm make sure H matches
 	
-	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC","Ctrl":"^","Alt":"{!}","Shift":"{+}","Win":"{#}",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22",Esc:"Esc",NumLock:"NumLock",NumPadDiv:"NumPadDiv",NumPadMult:"NumPadMult",NumPadSub:"NumPadSub",np7:"NumPad7",np8:"NumPad8",np9:"NumPad9",NumPadAdd:"NumPadAdd",np4:"NumPad4",np5:"NumPad5",np6:"NumPad6",np1:"NumPad1",np2:"NumPad2",NumPad3:"NumPad3",NumPadEnter:"NumpadEnter",np0:"NumPad0",NumpadDot:"NumpadDot",NumPad0:"NumPad0"}
+	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC","Ctrl":"^","Alt":"{!}","Shift":"{+}","Win":"{#}",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"} ;,Esc:"Esc",NumLock:"NumLock",NumPadDiv:"NumPadDiv",NumPadMult:"NumPadMult",NumPadSub:"NumPadSub",np7:"NumPad7",np8:"NumPad8",np9:"NumPad9",NumPadAdd:"NumPadAdd",np4:"NumPad4",np5:"NumPad5",np6:"NumPad6",np1:"NumPad1",np2:"NumPad2",NumPad3:"NumPad3",NumPadEnter:"NumpadEnter",np0:"NumPad0",NumpadDot:"NumpadDot",NumPad0:"NumPad0"
 	
 	
-	oldH:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore",n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
+	;oldH:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore",n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
 	
-	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
-	
+	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadSub:"NumPadSub",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore"} ;,BackTickTilde:"BackTickTilde"
 	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",CapsLock:"CapsLock",ScrollLock:"ScrollLock",NumLock:"NumLock",LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",AppsKey:"AppsKey",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",Pause:"Pause"}
 	
 	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
 	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"}
 
-	if a != %each%
+	; if a is alpha numeric but not keypad
+	if lettersOnly.HasKey(a) || numbersOnly.HasKey(a)
 	{
-		; if a is alpha ;not so much
-		if lettersOnly.HasKey(a)
-		{
-			; Send %a%
-			dontWrap:=!dontWrap
-			; return
-		}
+		dontWrap:=!dontWrap
 	}
-	
 	for k, v in cH {
-		; MsgBox %k% %v%
 		R[k]:=v  ; looped addition per max limit in expression
 	}
 	for k, v in lettersOnly {
@@ -254,84 +253,106 @@ outPut(a:="a")
 	{
 		if a = %each%
 		{
-			; big issue is grabbing existing physical modifiers
+			; grab physical modifiers
 			ctrlState:=GetKeyState("Ctrl",P)
 			altState:=GetKeyState("Alt",P)
 			shiftState:=GetKeyState("Shift",P)
 			winState:=GetKeyState("#",P)
-			
-			if ctrlState && altState && shiftState && winState
-			{ ;ctrl and alt and shift and win
-				e:= "!+^#{" . item . "}"
+	
+			;http://www.sdmath.com/math/discrete/boolean.html ;this explained why I didnt get that the typical factorial or combinatorics wasnt working, the modifiers are boolean states and the exponent represents the quantity thereof...flip of a coin example
+			;but clocking it first would mean you could avoid this test and results would be applied the same based on getkeystate results would require four? (I guess) tests rather than sixteen 
+
+			if ctrlState
+			{
+				e:= e . "^" ;app
 			}
-			else if !ctrlState && !altState && shiftState && winState
-			{ ;win shift
-				e:= "+#{" . item . "}"
+			else if altState
+			{
+				e:= e . "!"
 			}
-			else if !ctrlState && altState && !shiftState && winState
-			{ ;win alt
-				e:= "!#{" . item . "}"
+			else if shiftState
+			{
+				e:= e . "+"
 			}
-			else if ctrlState && !altState && !shiftState && winState
-			{ ;win ctrl
-				e:= "^#{" . item . "}"
+			else if winState
+			{
+				e:= e . "#"
 			}
-			else if !ctrlState && altState && shiftState && winState
-			{ ;win shift alt
-				e:= "!+#{" . item . "}"
-			}
-			else if ctrlState && !altState && shiftState && winState
-			{ ;win shift ctrl
-				e:= "+^#{" . item . "}"
-			}
-			else if ctrlState && !altState && shiftState && winState
-			{ ;win alt ctrl
-				e:= "!^#{" . item . "}"
-			}
-			else if !ctrlState && !altState && !shiftState && winState
-			{ ;win only
-				e:= "#{" . item . "}"
-			}
-			;sans win below
-			else if ctrlState && altState && shiftState && !winState
-			{ ;ctrl and alt and shift
-				e:= "!+^{" . item . "}"
-			}
-			else if ctrlState && altState && !shiftState && !winState
-			{ ;ctrl and alt
-				e:= "^!{" . item . "}"
-			}
-			else if ctrlState && !altState && !shiftState && !winState
-			{ ;ctrl
-				e:= "^{" . item . "}"
-			}
-			else if !ctrlState && altState && shiftState && !winState
-			{ ;alt and shift
-				e:= "!+{" . item . "}"
-			}
-			else if !ctrlState && altState && !shiftState && !winState
-			{ ;alt
-				e:= "!{" . item . "}"
-			}
-			else if !ctrlState && !altState && shiftState && !winState
-			{ ;shift only
-				e:= "+{" . item . "}"
-			}
-			else {
-				;no modifiers
-				e:= "{" . item . "}"
-			}
+			e:= e . "{" . item . "}"
+
+			; if ctrlState && altState && shiftState && winState
+			; { ;ctrl and alt and shift and win
+				; e:= "!+^#{" . item . "}"
+			; }
+			; else if !ctrlState && !altState && shiftState && winState
+			; { ;win shift
+				; e:= "+#{" . item . "}"
+			; }
+			; else if !ctrlState && altState && !shiftState && winState
+			; { ;win alt
+				; e:= "!#{" . item . "}"
+			; }
+			; else if ctrlState && !altState && !shiftState && winState
+			; { ;win ctrl
+				; e:= "^#{" . item . "}"
+			; }
+			; else if !ctrlState && altState && shiftState && winState
+			; { ;win shift alt
+				; e:= "!+#{" . item . "}"
+			; }
+			; else if ctrlState && !altState && shiftState && winState
+			; { ;win shift ctrl
+				; e:= "+^#{" . item . "}"
+			; }
+			; else if ctrlState && altState && !shiftState && winState
+			; { ;win alt ctrl
+				; e:= "!^#{" . item . "}"
+			; }
+			; else if ctrlState && !altState && shiftState && !winState
+			; { ;ctrl Shift
+				; e:= "!^#{" . item . "}"
+			; }
+			; else if !ctrlState && !altState && !shiftState && winState
+			; { ;win only
+				; e:= "#{" . item . "}"
+			; }
+			; ;sans win below
+			; else if ctrlState && altState && shiftState && !winState
+			; { ;ctrl and alt and shift
+				; e:= "!+^{" . item . "}"
+			; }
+			; else if ctrlState && altState && !shiftState && !winState
+			; { ;ctrl and alt
+				; e:= "^!{" . item . "}"
+			; }
+			; else if ctrlState && !altState && !shiftState && !winState
+			; { ;ctrl
+				; e:= "^{" . item . "}"
+			; }
+			; else if !ctrlState && altState && shiftState && !winState
+			; { ;alt and shift
+				; e:= "!+{" . item . "}"
+			; }
+			; else if !ctrlState && altState && !shiftState && !winState
+			; { ;alt only
+				; e:= "!{" . item . "}"
+			; }
+			; else if !ctrlState && !altState && shiftState && !winState
+			; { ;shift only
+				; e:= "+{" . item . "}"
+			; }
+			; else {
+				; ;no modifiers
+				; e:= "{" . item . "}"
+			; } ;all sixteen cases non permutationally accounted for
 			;there are better ways...
-			 ; MsgBox %e%
 			if dontWrap
 			{
-				 ; MsgBox %e% 1
 				e:=RegExReplace(e,"\{|\}","")
-				 ; MsgBox %e% 2y
 			}
 			SendLevel 1
 			Send %e%
 		}
 	}
 }
-;^r::reload
+^r::reload
