@@ -266,15 +266,15 @@ outPut(a:="a")
 			{
 				e:= e . "^" ;app
 			}
-			else if altState
+			if altState
 			{
 				e:= e . "!"
 			}
-			else if shiftState
+			if shiftState
 			{
 				e:= e . "+"
 			}
-			else if winState
+			if winState
 			{
 				e:= e . "#"
 			}
