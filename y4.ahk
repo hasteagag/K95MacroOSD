@@ -20,7 +20,7 @@ global
 	Gui +LastFound 
 	winset,transcolor,FFFFFF
 	gui,-caption +alwaysontop
-;SEE WHAT HAPPENS WITH A PCTURE REPLACE"
+
 Gui, Add, Text, x270 y520 w80 h65 vM12 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\M12.png
 Gui, Add, Text, x270 y590 w80 h65 vM11 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\M11.png
 Gui, Add, Text, x270 y664 w80 h71 vM10 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\M10.png
@@ -34,7 +34,6 @@ Gui, Add, Text, x25 y521 w69 h65 vM3 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir
 Gui, Add, Text, x29 y586 w69 h65 vM2 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\M2.png
 Gui, Add, Text, x29 y652 w69 h69 vM1 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\M1.png
 
-
 Gui, Add, Text, x448 y19 w45 h44 vkM3 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\kM3.png
 Gui, Add, Text, x382 y19 w45 h44 vkM2 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\kM2.png
 Gui, Add, Text, x316 y19 w45 h44 vkM1 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\kM1.png
@@ -44,15 +43,15 @@ Gui, Add, Text, x1331 y25 w33 h32 vLockText +BackgroundTrans gGMKeyFunc ;, %A_Sc
 Gui, Add, Text, x1535 y22 w64 h42 vMute +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\Mute.png
 Gui, Add, Text, x1626 y22 w73 h21 vVolumeUp +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\VolumeUp.png
 Gui, Add, Text, x1626 y42 w73 h22 vVolumeDown +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\VolumeDown.png
-Gui, Add, Text, x1661 y97 w63 h42 vNextTrack +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NextTrack.png
-Gui, Add, Text, x1597 y97 w63 h42 vPlayPause +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\PlayPause.png
-Gui, Add, Text, x1534 y97 w63 h42 vLastTrack +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\LastTrack.png
+Gui, Add, Text, x1661 y97 w63 h42 vMedia_Next +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NextTrack.png
+Gui, Add, Text, x1597 y97 w63 h42 vMedia_Play_Pause +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\PlayPause.png
+Gui, Add, Text, x1534 y97 w63 h42 vMedia_Prev +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\LastTrack.png
 Gui, Add, Text, x1468 y97 w63 h42 vStop +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\Stop.png
 
 Gui, Add, Text, x1665 y363 w61 h127 vNumPadEnter +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadEnter.png
-Gui, Add, Text, x1665 y233 w61 h127 vNumPadPlus +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadPlus.png
+Gui, Add, Text, x1665 y233 w61 h127 vNumpadAdd +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadPlus.png
 Gui, Add, Text, x1666 y169 w61 h61 vNumPadSub +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadSub.png
-Gui, Add, Text, x1601 y169 w61 h61 vNumPadMul +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadMul.png
+Gui, Add, Text, x1601 y169 w61 h61 vNumPadMult +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadMult.png
 Gui, Add, Text, x1534 y169 w61 h61 vNumPadDiv +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadDiv.png
 Gui, Add, Text, x1468 y169 w61 h61 vNumLock +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumLock.png
 Gui, Add, Text, x1601 y233 w61 h61 vnp9 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\9.png
@@ -66,6 +65,7 @@ Gui, Add, Text, x1534 y363 w61 h61 vnp2 +BackgroundTrans gGMKeyFunc ;, %A_Script
 Gui, Add, Text, x1468 y363 w61 h61 vnp1 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\1.png
 Gui, Add, Text, x1468 y427 w127 h61 vNumPadIns +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadIns.png
 Gui, Add, Text, x1601 y427 w61 h61 vNumPadDot +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\NumPadDot.png
+
 Gui, Add, Text, x1384 y427 w61 h61 vRight +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\Right.png
 Gui, Add, Text, x1318 y427 w61 h61 vDown +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\Down.png
 Gui, Add, Text, x1251 y427 w61 h61 vLeft +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\Left.png
@@ -175,7 +175,7 @@ Gui, Add, Text, x27 y157 w61 h61 vG4 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir
 Gui, Add, Text, x152 y95 w61 h61 vG3 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\G3.png
 Gui, Add, Text, x89 y95 w61 h61 vG2 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\G2.png
 Gui, Add, Text, x27 y95 w61 h61 vG1 +BackgroundTrans gGMKeyFunc ;, %A_ScriptDir%\k95\G1.png
-sleep 60
+; sleep 60
 	Gui, Show, x0 y0 w1745 h960
 
 ; below is the ridiculous css regex translation:	
@@ -228,11 +228,14 @@ outPut(a:="a")
 	
 	;oldH:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadMinus:"NumPadMinus",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore",n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"} ;,BackTickTilde:"BackTickTilde",:"BackTick"}
 	
-	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",NextTrack:"Media_Next",PlayPause:"Media_Play_Pause",LastTrack:"Media_Previous",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumPadPlus:"NumPadPlus",NumPadSub:"NumPadSub",NumPadMul:"NumPadMul",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore"} ;,BackTickTilde:"BackTickTilde"
+	H:={Brightness:"Brightness",LockButton:"LockButton",Mute:"Volume_Mute",VolumeUp:"Volume_Up",VolumeDown:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause
+:"Media_Play_Pause",Media_Prev:"Media_Prev",Stop:"Media_Stop",NumPadEnter:"NumPadEnter",NumpadAdd:"NumpadAdd",NumPadSub:"NumPadSub",NumPadMult:"NumPadMult",NumPadIns:"NumPadIns",NumPadDot:"NumPadDot",Right:"Right",Down:"Down",Left:"Left",Up:"Up",Delete:"Delete",End:"End",PgDown:"PgDown",PageUp:"PageUp",Home:"Home",Insert:"Insert",PauseBreak:"Pause_Break",ScrollLock:"ScrollLock",PrintScreen:"PrintScreen",F12:"F12",F11:"F11",F10:"F10",F9:"F9",F8:"F8",F7:"F7",F6:"F6",F5:"F5",F4:"F4",F3:"F3",F2:"F2",F1:"F1",Esc:"Esc",RCtrl:"RCtrl",AppsKey:"AppsKey",RWin:"RWiny",RAlt:"RAlt",Space:"Space",Lalt:"Lalt",LWin:"LWin",LCtrl:"LCtrl",RShift:"RShift",QuestionFWDSlash:"QuestionFWDSlash",GTPeriod:"GTPeriod",LTComma:"LTComma",LShift:"LShift",Enter:"Enter",quote:"quote",semicolon:"semicolon",CapsLock:"CapsLock",backslash:"backslash",CloseBracket:"CloseBracket",OpenBracket:"OpenBracket",Tab:"Tab",Backspace:"Backspace",BackTick:"BackTick",HyphenUnderscore:"HyphenUnderscore"} ;,BackTickTilde:"BackTickTilde"
 	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",CapsLock:"CapsLock",ScrollLock:"ScrollLock",NumLock:"NumLock",LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",AppsKey:"AppsKey",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",Pause:"Pause"}
 	
 	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
-	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1"}
+	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1",np0:"0",np9:"9",np8:"8",np7:"7",np6:"6",np5:"5",np4:"4",np3:"3",np2:"2",np1:"1"}
+	
+	; no accounting for "shift" states123456789/-
 
 	; if a is alpha numeric but not keypad
 	if lettersOnly.HasKey(a) || numbersOnly.HasKey(a)
