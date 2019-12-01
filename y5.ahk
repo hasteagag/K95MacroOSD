@@ -292,3 +292,4 @@ clearAllOSKStates()
 ; fix as many direct mappings as possible
 ; test all keys in the log there may be some missing keys still
 ; figure out why = "" doesnt work but instr does...what end of lines etc are you not seeing
+; set timeout after ten seconds for any of the OSK modifier states.
