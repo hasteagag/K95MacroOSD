@@ -89,8 +89,8 @@ global
 	Gui, Add, Text, x1136 y425 w93 h61 vRControl +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x1070 y425 w62 h61 vAppsKey +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x1004 y425 w62 h61 vRWin +BackgroundTrans gGMKeyFunc 
-	Gui, Add, Text, x490 y425 w424 h61 vRAlt +BackgroundTrans gGMKeyFunc 
-	Gui, Add, Text, x918 y425 w82 h61 vSpace +BackgroundTrans gGMKeyFunc 
+	Gui, Add, Text, x918 y425 w82 h61 vRAlt +BackgroundTrans gGMKeyFunc 
+	Gui, Add, Text, x490 y425 w424 h61 vSpace +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x401 y425 w83 h61 vLAltt +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x338 y425 w62 h61 vLWin +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x244 y425 w91 h61 vLControl +BackgroundTrans gGMKeyFunc 
@@ -166,11 +166,17 @@ global
 	Gui, Add, Text, x89 y95 w61 h61 vG2 +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x27 y95 w61 h61 vG1 +BackgroundTrans gGMKeyFunc 
     ;;;;;;;;;;;;;
+	; Gui, Add, Text, x600 y700 w100 h100 c000000 vResetModifiers gGMKeyFunc,
+	
 	Gui, Show, x0 y0 w1745 h960
 }
 GMKeyFunc()
 {
 	WinActivate, ahk_id %lastHwndMacro%
+	if ResetModifiers
+	{
+		clearAllOSKStates()
+	}
 	outPut(A_GuiControl)
 	Gui, Destroy 	
 	; Gui, Hide
@@ -179,13 +185,10 @@ GMKeyFunc()
 }
 outPut(a:="a")
 {
-	;replace with a in 
-	Gui, Destroy
-	; msgbox %a%
+	; Gui, Destroy
+	msgbox %a%
 	; clipboard:=a
 			 ; LControl
-		; ctrlStateOSK:= v="LCtrl" ? TRUE : FALSE
-	
 	;you cannot do a string comparison or equivalency evaluation for some reason like a = "LControl" does not work
 	if InStr(a,"LControl") || InStr(a,"RControl")
 	{
@@ -203,8 +206,9 @@ outPut(a:="a")
 	{
 		winStateOSK:=TRUE
 	}
+	;wrap the above in a matchlist or is that stupid?
 
-	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC","Ctrl":"^","Alt":"{!}","Shift":"{+}","Win":"{#}",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"}
+	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"}
 	
 	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",PauseBreak:"Pause"}
 	
@@ -213,6 +217,7 @@ outPut(a:="a")
 	lockStates:={CapsLock:"CapsLock",ScrollLock:"ScrollLock",NumLock:"NumLock"}
 	; figure out what to do so that lwin lalt lctrl lshift for example set toggle states irrespective of the physical state
 	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
+	
 	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1",np0:"0",np9:"9",np8:"8",np7:"7",np6:"6",np5:"5",np4:"4",np3:"3",np2:"2",np1:"1"}
 
 	if lettersOnly.HasKey(a) || numbersOnly.HasKey(a)
@@ -222,7 +227,6 @@ outPut(a:="a")
 	for key, value in cH {
 		R[key]:=value  ; looped addition per max limit in expression
 	}
-
 	for k, v in modifierKeys {
 		R[k]:=v  ; looped addition
 	}	
@@ -254,7 +258,6 @@ outPut(a:="a")
 			}
 			if ctrlState || ctrlStateOSK
 			{
-				; msgbox here and ctrlStateOSK is %ctrlStateOSK%
 				e:= "^" . e
 			}
 			if altState || altStateOSK
@@ -275,17 +278,14 @@ outPut(a:="a")
 	}
 }
 ^r::reload
+^w::
+	clearAllOSKStates()
+return
+clearAllOSKStates()
+{
+	ctrlStateOSK:=false,altStateOSK:=false,shiftStateOSK:=false,winStateOSK:=false
+}
 ; TO DO List
 ; fix as many direct mappings as possible
-; test all keys in the log
-
-
-; ^w::
-	; b:="A"
-	; if b == A
-	; {
-		; msgbox here
-		; ctrlStateOSK:=TRUE
-		; msgbox %ctrlStateOSK%
-	; }
-; return
+; test all keys in the log there may be some missing keys still
+; figure out why = "" doesnt work but instr does...what end of lines etc are you not seeing
