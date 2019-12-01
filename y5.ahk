@@ -166,7 +166,9 @@ global
 	Gui, Add, Text, x89 y95 w61 h61 vG2 +BackgroundTrans gGMKeyFunc 
 	Gui, Add, Text, x27 y95 w61 h61 vG1 +BackgroundTrans gGMKeyFunc 
     ;;;;;;;;;;;;;
-	; Gui, Add, Text, x600 y700 w100 h100 c000000 vResetModifiers gGMKeyFunc,
+	
+	
+	Gui, Add, Button, x600 y700 w100 h100 vResetModifiers gclearAllOSKStates, Clear all OSK Modifier States ;, %A_ScriptDir%\k95\g1.png
 	
 	Gui, Show, x0 y0 w1745 h960
 }
@@ -186,7 +188,7 @@ GMKeyFunc()
 outPut(a:="a")
 {
 	; Gui, Destroy
-	msgbox %a%
+	; msgbox %a%
 	; clipboard:=a
 			 ; LControl
 	;you cannot do a string comparison or equivalency evaluation for some reason like a = "LControl" does not work
@@ -210,7 +212,7 @@ outPut(a:="a")
 
 	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"}
 	
-	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",PauseBreak:"Pause"}
+	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",PauseBreak:"Pause",BackTickTilde:"``"}
 	
 	modifierKeys:={LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",AppsKey:"AppsKey"}
 	
@@ -278,11 +280,12 @@ outPut(a:="a")
 	}
 }
 ^r::reload
-^w::
-	clearAllOSKStates()
-return
+; ^w::
+	; clearAllOSKStates()
+; return
 clearAllOSKStates()
 {
+	Gui, Destroy
 	ctrlStateOSK:=false,altStateOSK:=false,shiftStateOSK:=false,winStateOSK:=false
 }
 ; TO DO List
