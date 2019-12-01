@@ -221,6 +221,8 @@ outPut(a:="a")
 	lettersOnly:={m:"m",n:"n",b:"b",xV:"v",c:"c",x:"x",z:"z",l:"l",k:"k",j:"j",h:"h",g:"g",f:"f",d:"d",s:"s",a:"a",p:"p",o:"o",i:"i",u:"u",y:"y",t:"t",r:"r",e:"e",w:"w",q:"q"}
 	
 	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1",np0:"0",np9:"9",np8:"8",np7:"7",np6:"6",np5:"5",np4:"4",np3:"3",np2:"2",np1:"1"}
+	
+	otherSpecial:={QuestionFWDSlash:"/",GTPeriod:".",LTComma:",",quote:"""",semicolon:";",backslash:"\",CloseBracket:"]",OpenBracket:"["}
 
 	if lettersOnly.HasKey(a) || numbersOnly.HasKey(a)
 	{
@@ -234,7 +236,10 @@ outPut(a:="a")
 	}	
 	for k, v in lockStates {
 		R[k]:=v  ; looped addition
-	}	
+	}
+	for k, v in otherSpecial {
+		R[k]:=v  ; looped addition
+	}
 	for k, v in lettersOnly {
 		R[k]:=v  ; looped addition
 	}	
