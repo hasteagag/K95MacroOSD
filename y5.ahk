@@ -12,7 +12,7 @@ return
 osdMacroBoard()
 {
 global
-	If !WinExist("ahk_class AutoHotkeyGUI") { ;can this look for the Gui Name?
+	If !WinExist("ahk_class AutoHotkeyGUI","Clear all OSK Modifier States") { ;can this look for the Gui Name?
 		Gui, k95andScimitar:New
 		Gui, k95andScimitar:Add, Picture, x0 y0 w1745 h747 +BackgroundTrans +Redraw, %A_ScriptDir%\transtest.png
 		Gui, k95andScimitar:-caption
