@@ -13,9 +13,9 @@ return
 osdMacroBoard()
 {
 global
-	;asking in Discord what I can do here to match the named GUI better?...
-	If !WinExist("ahk_class AutoHotkeyGUI","Clear all OSK Modifier States") { ;can this look for the Gui Name?
-		Gui, k95andScimitar:New
+	if !WinExist("k95andScimitar ahk_class AutoHotkeyGUI") {
+		; Gui, GuiName:New , Options, Title
+		Gui, k95andScimitar:New , , k95andScimitar
 		Gui, k95andScimitar:Add, Picture, x0 y0 w1745 h747 +BackgroundTrans +Redraw, %A_ScriptDir%\transtest.png
 		Gui, k95andScimitar:-caption
 		Gui, k95andScimitar:Color, FFFFFF
@@ -188,36 +188,38 @@ GMKeyFunc()
 	}
 	outPut(A_GuiControl)
 	; Gui, k95andScimitar:Destroy 	
-	Gui, k95andScimitar:Hide
+	; Gui, k95andScimitar:Hide
 	; Gui, k95andScimitar:Minimize
 	return
 }
 outPut(a:="a")
 {
 	;you cannot do a string comparison or equivalency evaluation for some reason like a = "LControl" does not work
-	if InStr(a,"LControl") || InStr(a,"RControl")
+	;am I better off pre defining these objects up top?  less handy but seems more sensible and the below tests can be more of an if in type arrangement for future proof or more flexible avec modifiers
+	
+	;check for any of these and then do this so we can reduce code?  may be hella inefficient:
+	if InStr(a,"LControl") || InStr(a,"RControl") || InStr(a,"LAlt") || InStr(a,"RAlt") || InStr(a,"LShift") || InStr(a,"RShift") || InStr(a,"LWin") || InStr(a,"RWin")
 	{
-		ctrlStateOSK:=TRUE
 		GuiControl,Show,ResetModifiers
+		if InStr(a,"LControl") || InStr(a,"RControl")
+		{
+			ctrlStateOSK:=TRUE ;these ought to toggle and have a pressed indication, adding to the TODO list
+		}
+		if InStr(a,"LAlt") || InStr(a,"RAlt")
+		{
+			altStateOSK:=TRUE
+		}
+		if InStr(a,"LShift") || InStr(a,"RShift")
+		{
+			shiftStateOSK:=TRUE
+		}
+		if InStr(a,"LWin") || InStr(a,"RWin")
+		{
+			winStateOSK:=TRUE
+		}
+		;kickout here?
+		return
 	}
-	if InStr(a,"LAlt") || InStr(a,"RAlt")
-	{
-		altStateOSK:=TRUE
-		GuiControl,Show,ResetModifiers
-	}
-	if InStr(a,"LShift") || InStr(a,"RShift")
-	{
-		shiftStateOSK:=TRUE
-		GuiControl,Show,ResetModifiers
-	}
-	if InStr(a,"LWin") || InStr(a,"RWin")
-	{
-		winStateOSK:=TRUE
-		GuiControl,Show,ResetModifiers
-	}
-	;check for any of these and then do this so we can reduce code?:
-		; GuiControl,Show,ResetModifiers
-
 	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"}
 	
 	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",PauseBreak:"Pause",BackTickTilde:"``"}
@@ -291,6 +293,7 @@ outPut(a:="a")
 			Send %e%
 		}
 	}
+	Gui, k95andScimitar:Hide ;moved this to test logic for earlier return (not ideal probably but appears functional)
 }
 
 ^r::reload
@@ -302,8 +305,11 @@ clearAllOSKStates()
 	; Gui, k95andScimitar:Destroy
 	ctrlStateOSK:=false,altStateOSK:=false,shiftStateOSK:=false,winStateOSK:=false
 }
+
 ; TO DO List
 ; fix as many direct mappings as possible
 ; test all keys in the log there may be some missing keys still
 ; figure out why = "" doesnt work but instr does...what end of lines etc are you not seeing and is there a better way to prevent that in the future
 ; set timeout after ten seconds for any of the OSK modifier states and most importantly see if the OSKmodifier button can toggle on only when osk modifiers are active
+; SetTimer see docs for overall timeout?  set to a variable to make configurable 
+;modifiers these ought to toggle and have a pressed indication, adding to the TODO list
