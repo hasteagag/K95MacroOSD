@@ -1,4 +1,5 @@
-;these respond to the OSD key events.  Also programmed to be emitted as such on event in my modified events example from the corsair SDK
+;these respond to the OSK key events as written in y5.ahk.
+;Also programmed to be emitted as such on event in my modified events example from the corsair SDK
 SC0C1::
 	MsgBox G1
 Return
@@ -93,4 +94,3 @@ return
 SC0EC::
 	 MsgBox M12
 return
-
