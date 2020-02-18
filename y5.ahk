@@ -3,13 +3,13 @@ StringCaseSense, Off
 global lastHwndMacro:=0x0
 global doWrap:=true
 global ctrlStateOSK:=false,altStateOSK:=false,shiftStateOSK:=false,winStateOSK:=false
+
 #y::
+#z::
 	lastHwndMacro:=WinExist("A")
 	doWrap:=true
 	osdMacroBoard()
 return
-;change the above to whatever you want, just want something out of the way enough to not bother you, but be easy enough to hit in a remote session
-
 osdMacroBoard()
 {
 global
@@ -91,15 +91,35 @@ global
 		Gui, k95andScimitar:Add, Text, x416 y99 w61 h61 vF2 +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x350 y99 w61 h61 vF1 +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x240 y99 w61 h61 vEsc +BackgroundTrans gGMKeyFunc 
+		
 		Gui, k95andScimitar:Add, Text, x1136 y425 w93 h61 vRControl +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button, x1136 y425 w93 h61 vRControlToggled +Hidden gGMKeyFunc,Right Control pressed
+				
 		Gui, k95andScimitar:Add, Text, x1070 y425 w62 h61 vAppsKey +BackgroundTrans gGMKeyFunc 
+		
 		Gui, k95andScimitar:Add, Text, x1004 y425 w62 h61 vRWin +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button, x1004 y425 w62 h61 vRWinToggled +Hidden gGMKeyFunc,Right Windows Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x918 y425 w82 h61 vRAlt +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button, x918 y425 w82 h61 vRAltToggled +Hidden gGMKeyFunc,Right Alt Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x490 y425 w424 h61 vSpace +BackgroundTrans gGMKeyFunc 
-		Gui, k95andScimitar:Add, Text, x401 y425 w83 h61 vLAltt +BackgroundTrans gGMKeyFunc 
+		
+		Gui, k95andScimitar:Add, Text, x401 y425 w83 h61 vLAlt +BackgroundTrans gGMKeyFunc
+		Gui, k95andScimitar:Add, Button, x401 y425 w83 h61 vLAltToggled +Hidden gGMKeyFunc,Left Alt Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x338 y425 w62 h61 vLWin +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button, x338 y425 w62 h61 vLWinToggled +Hidden gGMKeyFunc,Left Windows Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x244 y425 w91 h61 vLControl +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button, x244 y425 w91 h61 vLControlToggled +Hidden gGMKeyFunc,Left Control Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x1050 y361 w180 h61 vRShift +BackgroundTrans gGMKeyFunc 
+		Gui, k95andScimitar:Add, Button,  x1050 y361 w180 h61 vRShiftToggled +Hidden gGMKeyFunc,Right Shift Key Toggled
+				
+		Gui, k95andScimitar:Add, Text, x243 y361 w142 h61 vLShift +BackgroundTrans gGMKeyFunc
+		Gui, k95andScimitar:Add, Button, x243 y361 w142 h61 vLShiftToggled +Hidden gGMKeyFunc,Left Shift Key Toggled
+		
 		Gui, k95andScimitar:Add, Text, x984 y361 w62 h61 vQuestionFWDSlash +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x918 y361 w62 h61 vGTPeriod +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x852 y361 w62 h61 vLTComma +BackgroundTrans gGMKeyFunc 
@@ -110,7 +130,8 @@ global
 		Gui, k95andScimitar:Add, Text, x522 y361 w62 h61 vc +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x456 y361 w62 h61 vx +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x390 y361 w62 h61 vz +BackgroundTrans gGMKeyFunc 
-		Gui, k95andScimitar:Add, Text, x243 y361 w142 h61 vLShift +BackgroundTrans gGMKeyFunc 
+		
+		
 		Gui, k95andScimitar:Add, Text, x1085 y297 w142 h61 vEnter +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x1019 y297 w62 h61 vquote +BackgroundTrans gGMKeyFunc 
 		Gui, k95andScimitar:Add, Text, x953 y297 w62 h61 vsemicolon +BackgroundTrans gGMKeyFunc 
@@ -173,11 +194,16 @@ global
 		;;;;;;;;;;;;;
 			
 		Gui, k95andScimitar:Add, Button, x600 y700 w100 h100 vResetModifiers gclearAllOSKStates +Hidden, Clear all OSK Modifier States ;this needs work too
+		Gui, k95andScimitar:Add, Text, x700 y700 w100 h100 vResetOSK gResetOSK +BackgroundTrans, Kill this OSK
 		Gui, k95andScimitar:Show, x0 y0 w1745 h960
 	}
 	else {
 		Gui, k95andScimitar:Show, x0 y0 w1745 h960
 	}
+}
+ResetOSK()
+{
+	Gui, k95andScimitar:Destroy
 }
 GMKeyFunc()
 {
@@ -194,37 +220,15 @@ GMKeyFunc()
 }
 outPut(a:="a")
 {
-	;you cannot do a string comparison or equivalency evaluation for some reason like a = "LControl" does not work
-	;am I better off pre defining these objects up top?  less handy but seems more sensible and the below tests can be more of an if in type arrangement for future proof or more flexible avec modifiers
-	
-	;check for any of these and then do this so we can reduce code?  may be hella inefficient:
-	if InStr(a,"LControl") || InStr(a,"RControl") || InStr(a,"LAlt") || InStr(a,"RAlt") || InStr(a,"LShift") || InStr(a,"RShift") || InStr(a,"LWin") || InStr(a,"RWin")
-	{
-		GuiControl,Show,ResetModifiers
-		if InStr(a,"LControl") || InStr(a,"RControl")
-		{
-			ctrlStateOSK:=TRUE ;these ought to toggle and have a pressed indication, adding to the TODO list
-		}
-		if InStr(a,"LAlt") || InStr(a,"RAlt")
-		{
-			altStateOSK:=TRUE
-		}
-		if InStr(a,"LShift") || InStr(a,"RShift")
-		{
-			shiftStateOSK:=TRUE
-		}
-		if InStr(a,"LWin") || InStr(a,"RWin")
-		{
-			winStateOSK:=TRUE
-		}
-		;kickout here?
-		return
+	offyTurners:={LControlToggled:"LControlToggled",RControlToggled:"RControlToggled",LaltToggled:"LaltToggled",RAltToggled:"RAltToggled",LShiftToggled:"LShiftToggled",RShiftToggled:"RShiftToggled",RWinToggled:"RWinToggled",LWinToggled:"LWinToggled"}
+	if offyTurners.haskey(a) {
+		GuiControl,Hide,%a%
 	}
 	R := {G1:"SC0C1",G2:"SC0C2",G3:"SC0C3",G4:"SC0C4",G5:"SC0C5",G6:"SC0C6",G7:"SC0C7",G8:"SC0C8",G9:"SC0C9",G10:"SC0CA",G11:"SC0CB",G12:"SC0CC",G13:"SC0CD",G14:"SC0CE",G15:"SC0CF",G16:"SC0D0",G17:"SC0D1",G18:"SC0D2",M1:"SC0D3",M2:"SC0D4",M3:"SC0D5",M4:"SC0D6",M5:"SC0D7",M6:"SC0D8",M7:"SC0D9",M8:"SC0DA",M9:"SC0E9",M10:"SC0EA",M11:"SC0EB",M12:"SC0EC",kMR:"F19",kM1:"F20",kM2:"F21",kM3:"F22"}
 	
 	cH:={F1:"F1",F2:"F2",F3:"F3",F4:"F4",F5:"F5",F6:"F6",F7:"F7",F8:"F8",F9:"F9",F10:"F10",F11:"F11",F12:"F12",Enter:"Enter",Escape:"Escape",Space:"Space",Tab:"Tab",Backspace:"Backspace",Delete:"Delete",Insert:"Insert",Up:"Up",Down:"Down",Left:"Left",Right:"Right",Home:"Home",End:"End",PgUp:"PgUp",PgDn:"PgDn",NumpadDot:"NumpadDot",NumPadEnter:"NumPadEnter",NumpadMult:"NumpadMult",NumpadDiv:"NumpadDiv",NumpadAdd:"NumpadAdd",NumpadSub:"NumpadSub",NumpadDel:"NumpadDel",NumPadIns:"NumPadIns",Volume_Mute:"Volume_Mute",Volume_Up:"Volume_Up",Volume_Down:"Volume_Down",Media_Next:"Media_Next",Media_Play_Pause:"Media_Play_Pause",Media_Prev:"Media_Prev",Media_Stop:"Media_Stop",PrintScreen:"PrintScreen",PauseBreak:"Pause",BackTickTilde:"``"}
 	
-	modifierKeys:={LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",AppsKey:"AppsKey"}
+	modifierKeys:={LControl:"LControl",RControl:"RControl",Lalt:"Lalt",RAlt:"RAlt",LShift:"LShift",RShift:"RShift",RWin:"RWin",LWin:"LWin",AppsKey:"AppsKey"}
 	
 	lockStates:={CapsLock:"CapsLock",ScrollLock:"ScrollLock",NumLock:"NumLock"}
 	; figure out what to do so that lwin lalt lctrl lshift for example set toggle states irrespective of the physical state
@@ -233,7 +237,46 @@ outPut(a:="a")
 	numbersOnly:={n0:"0",n9:"9",n8:"8",n7:"7",n6:"6",n5:"5",n4:"4",n3:"3",n2:"2",n1:"1",np0:"0",np9:"9",np8:"8",np7:"7",np6:"6",np5:"5",np4:"4",np3:"3",np2:"2",np1:"1"}
 	
 	otherSpecial:={QuestionFWDSlash:"/",GTPeriod:".",LTComma:",",quote:"""",semicolon:";",backslash:"\",CloseBracket:"]",OpenBracket:"["}
+	if modifierKeys.HasKey(a)
+	{
+		GuiControl,Show,ResetModifiers
+		switch a {
 
+			case "LAlt":
+				GuiControl,Show,LAltToggled
+				GuiControl,Hide,LAlt
+				altStateOSK:=TRUE
+			case "LControl":
+				GuiControl,Show,LControlToggled
+				GuiControl,Hide,LControl
+				ctrlStateOSK:=TRUE
+			case "LShift":
+				GuiControl,Show,LShiftToggled
+				GuiControl,Hide,LShift
+				shiftStateOSK:=TRUE
+			case "LWin":
+				GuiControl,Show,LWinToggled
+				GuiControl,Hide,LWin
+				winStateOSK:=TRUE
+			case "RAlt":
+				GuiControl,Show,RAltToggled
+				GuiControl,Hide,RAlt
+				altStateOSK:=TRUE
+			case "RControl":
+				GuiControl,Show,RControlToggled
+				GuiControl,Hide,RControl
+				ctrlStateOSK:=TRUE
+			case "RShift":
+				GuiControl,Show,RShiftToggled
+				GuiControl,Hide,RShift
+				shiftStateOSK:=TRUE
+			case "RWin":
+				GuiControl,Show,RWinToggled
+				GuiControl,Hide,RWin
+				winStateOSK:=TRUE
+		}
+		return
+	}
 	if lettersOnly.HasKey(a) || numbersOnly.HasKey(a)
 	{
 		doWrap:=!doWrap
@@ -296,12 +339,27 @@ outPut(a:="a")
 	Gui, k95andScimitar:Hide ;moved this to test logic for earlier return (not ideal probably but appears functional)
 }
 
-^r::reload
-;comment the above out if you do not want to book that hotkey everywhere.
-
 clearAllOSKStates()
 {
 	GuiControl,Hide,ResetModifiers
+	GuiControl,Hide,RControlToggled
+	GuiControl,Hide,LAltToggled
+	GuiControl,Hide,LControlToggled
+	GuiControl,Hide,LShiftToggled
+	GuiControl,Hide,LWinToggled
+	GuiControl,Hide,RAltToggled
+	GuiControl,Hide,RControlToggled
+	GuiControl,Hide,RShiftToggled
+	GuiControl,Hide,RWinToggled
+
+	GuiControl,Show,RControl 
+	GuiControl,Show,RWin 
+	GuiControl,Show,RAlt 
+	GuiControl,Show,LAlt
+	GuiControl,Show,LWin 
+	GuiControl,Show,LControl 
+	GuiControl,Show,RShift 
+	GuiControl,Show,LShift	
 	; Gui, k95andScimitar:Destroy
 	ctrlStateOSK:=false,altStateOSK:=false,shiftStateOSK:=false,winStateOSK:=false
 }
